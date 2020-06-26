@@ -1,7 +1,8 @@
-var dataLink = require('./dataLink')
 var network = require('./network')
-var SerialPort = require('serialport')
-var port = new SerialPort('/dev/ttyS3', { baudRate: 57600 })
+const SerialPort = require('serialport')
+const config = require('config')
+
+var port = new SerialPort(config.get('Serial.serialPort'), { baudRate: config.get('Serial.baudRate') })
 
 port.on('data',function(data){
     for (var index = 0; index < data.length; index++)

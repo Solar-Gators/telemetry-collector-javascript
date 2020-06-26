@@ -1,0 +1,6 @@
+{
+    "Serial" : {
+        "baudRate": 57600,
+        "serialPort": "/dev/ttyS3"
+    }
+}
