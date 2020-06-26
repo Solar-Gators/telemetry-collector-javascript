@@ -24,7 +24,9 @@ Below is a graphical repsentation of what a transmission looks like.
 
 ```
 
-The telemetry addresses have been predefined as needed below.
+### Decoding messages 
+
+As previously mentioned, the network layer reports the telemetry addresses to be inserted. The telemetry addresses have been predefined as needed below.
 
 Telemetry | Address
 ------------ | -------------
@@ -32,6 +34,8 @@ GPS  | 0x00
 MPPT | 0x01
 BMS  | 0x02
 IMU  | 0x03
+
+Each telemetry has a custom method for decoding based on it's needs. There is not a generic method that fits all of them, so each one has it's own implmentation.
 
 ## Usage
 
