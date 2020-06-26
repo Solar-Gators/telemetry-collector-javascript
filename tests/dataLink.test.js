@@ -1,20 +1,13 @@
-var dataLink = require('./dataLink')
+var { expect } = require('chai')
+var dataLink = require('../src/dataLink')
 var specialChars = dataLink.specialChars
 
-function assertEqual(arr1, arr2)
-{
-    if (arr1.length != arr2.length)
-        return console.trace("ERROR ARRAYS NOT EQUAL")
-    
-    for (var index = 0; index < arr1.length; index++)
-    {
-        if (arr1[index] != arr2[index])
-            return console.trace("ERROR ARRAYS NOT EQUAL")
-    }
-    console.log("Success")
-}
-
-function sendData(dataIn, callback)
+/**
+ * Puts dataIn through data lnk layer and sees if it's returned the same
+ * 
+ * @param {number[]} dataIn
+ */
+function sendDataEqual(dataIn)
 {
     var data = [specialChars.start]
     for (var index = 0; index < dataIn.length; index++)
@@ -28,40 +21,38 @@ function sendData(dataIn, callback)
 
     data.push(specialChars.end)
 
+    let transmissionFinished = false
     for (var index = 0; index < data.length; index++)
-        dataLink.read(data[index], callback)
+        dataLink.read(data[index], (response) => {
+            expect(response).to.be.eql(dataIn)
+            transmissionFinished = true
+        })
+    
+    if (!transmissionFinished) throw "The transmission didn't complete. Please check your transmission for completeness."
 }
 
-var example1 = [1,2,3,4,5,6,7]
-var example2 = [1,2,3,4, specialChars.start, 5,6,7]
-var example3 = [1,2,3,4, specialChars.end, 5,6,7]
-var example4 = [1,2,3,4, specialChars.escape, 5,6,7]
+describe('Data Link Layer', function () {
+    describe('normal transmission with no special characters', function () {
+        it('should return the correct response', function () {
+            return sendDataEqual([1,2,3,4,5,6,7])
+        })
+    })
 
+    describe('transmission with start byte in data', function () {
+        it('should return the correct response', function () {
+            return sendDataEqual([1,2,3,4, specialChars.start, 5,6,7])
+        })
+    })
 
-console.log("Start test 1")
-sendData(example1, (data) =>
-{
-    assertEqual(example1, data)
-    console.log("Finish test 1")
-})
+    describe('transmission with end byte in data', function () {
+        it('should return the correct response', function () {
+            return sendDataEqual([1,2,3,4, specialChars.end, 5,6,7])
+        })
+    })
 
-console.log("Start test 2")
-sendData(example2, (data) =>
-{
-    assertEqual(example2, data)
-    console.log("Finish test 2")
-})
-
-console.log("Start test 3")
-sendData(example3, (data) =>
-{
-    assertEqual(example3, data)
-    console.log("Finish test 3")
-})
-
-console.log("Start test 4")
-sendData(example4, (data) =>
-{
-    assertEqual(example4, data)
-    console.log("Finish test 4")
+    describe('transmission with escape byte in data', function () {
+        it('should return the correct response', function () {
+            return sendDataEqual([1,2,3,4, specialChars.escape, 5,6,7])
+        })
+    })
 })
