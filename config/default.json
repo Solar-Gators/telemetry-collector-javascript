@@ -2,5 +2,8 @@
     "Serial" : {
         "baudRate": 57600,
         "serialPort": "/dev/ttyS3"
+    },
+    "server": {
+        "url": "http://localhost:8080"
     }
 }

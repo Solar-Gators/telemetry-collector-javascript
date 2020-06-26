@@ -31,7 +31,7 @@ const IMU = 0x03
 */
 function sendData(url, data)
 {
-    return request.post(`http://localhost:8080/api/${url}`, data)
+    return request.post(`${config.get('server.url')}/api/${url}`, data)
 }
 
 
