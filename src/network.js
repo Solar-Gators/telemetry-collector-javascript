@@ -1,10 +1,13 @@
-var dataLink = require('./dataLink')
-var request = require('axios')
+const dataLink = require('./dataLink')
+const request = require('axios')
+const config = require('config')
 
-const GPS = 0x00
-const MPPT = 0x01
-const BMS = 0x02
-const IMU = 0x03
+exports.TELEMETRY_ADDRESS = TELEMETRY_ADDRESS = {
+    GPS: 0x00,
+    MPPT: 0x01,
+    BMS: 0x02,
+    IMU: 0x03
+}
 
 
 /**
@@ -83,9 +86,9 @@ function DDMtoDD(str)
 /**
 * Recieves a raw transmission from the data link layer and does needed calls
 * 
-* @param {String[]} data a single transmission
+* @param {Number[]} data a single transmission
 */
-function handleTransmission(data)
+exports.handleTransmission =  function handleTransmission(data)
 {
     var numMessages = data[0]
     var currentIndex = 1
@@ -98,25 +101,25 @@ function handleTransmission(data)
         for (var count = 0; count < dataLen; count++)
             dataBuffer.push(data[currentIndex++])
         
-        if (address == BMS && dataBuffer[7] && dataBuffer[6])
+        if (address == TELEMETRY_ADDRESS.BMS && dataBuffer[7] && dataBuffer[6])
         {
             //console.log(dataBuffer[7].toString(16), dataBuffer[6].toString(16))
 
             var packSumVoltage = getWord(dataBuffer[7], dataBuffer[6])/100
-           
+
             sendData("bms", {
                 "packSumVoltage": packSumVoltage
             })
         }
 
-        else if (address == GPS)
+        else if (address == TELEMETRY_ADDRESS.GPS)
         {
             var gpsString = ""
             for (var index = 0; index < dataBuffer.length; index++)
                 gpsString += String.fromCharCode(dataBuffer[index])
             //var gpsString = dataBuffer.join('')
             var values = gpsString.split(',')
-            console.log(gpsString)
+
             //north and east is positive
             var longitudeStr = values[1]
             var latitudeStr = values[0]
@@ -126,12 +129,7 @@ function handleTransmission(data)
             var latitude = String(parseFloat(latitudeStr) * (latitudeStr[latitudeStr.length - 1] == "S" ? -1 : 1))
             var speed = parseFloat(values[2])
             var heading = parseFloat(values[3])
-            console.log({
-                "longitude": DDMtoDD(longitude),
-                "latitude": DDMtoDD(latitude),
-                "speed": speed,
-                "heading": heading
-            })
+
             sendData("gps", {
                 "longitude": DDMtoDD(longitude),
                 "latitude": DDMtoDD(latitude),
@@ -140,7 +138,7 @@ function handleTransmission(data)
             })
         }
 
-        else if (address == IMU)
+        else if (address == TELEMETRY_ADDRESS.IMU)
         {
             var accel = {
                 x: signed16(dataBuffer[1], dataBuffer[0]),
