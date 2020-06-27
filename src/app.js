@@ -10,6 +10,7 @@ port.on('data',function(data){
         network.read(data[index])
     }
 });
+
 port.on('error', function(data)
 {
     console.log('Error: ' + data)

@@ -13,14 +13,14 @@ Data Link Layer: [Byte Stuffing](https://www.geeksforgeeks.org/difference-betwee
 
 ### Network Layer
 
-The network layer is a custom protocol used for sending telemetry information in a way that is easily verifiable. The first byte of a transmission is the address that corresponds to a telemetry item (ie Battery Cell 1, GPS, Temperature). The second byte is length of the data packet that follows the first two bytes. 
+The network layer is a custom protocol used for sending telemetry information in a way that is easily verifiable. The protocol is seperated into messages and data. The first byte in the transmission is the number of messages in the transmission. For every message there is an address, length and data package. The first byte contains the address which corresponds to a telemetry item (ie Battery Cell 1, GPS, Temperature). The second byte in a message is the length of the data packet that follows the first two bytes. 
 
 
 Below is a graphical repsentation of what a transmission looks like.
 
 ```
 
-| 8 bit address | 8 bit data length | 1 byte of data | ... n bytes of data |
+8 bit message length | { 8 bit address | 8 bit data length | 1 byte of data | ... n bytes of data }
 
 ```
 
