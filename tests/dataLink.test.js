@@ -1,6 +1,7 @@
 var { expect } = require('chai')
 var dataLink = require('../src/dataLink')
 var specialChars = dataLink.specialChars
+var dataLinkCovert = require('./lib/dataLinkConvert')
 
 /**
  * Puts dataIn through data lnk layer and sees if it's returned the same
@@ -9,17 +10,7 @@ var specialChars = dataLink.specialChars
  */
 function sendDataEqual(dataIn)
 {
-    var data = [specialChars.start]
-    for (var index = 0; index < dataIn.length; index++)
-    {
-        var dataByte = dataIn[index]
-        if (dataByte == specialChars.start || dataByte == specialChars.end || dataByte == specialChars.escape)
-            data.push(specialChars.escape)
-        
-        data.push(dataByte)
-    }
-
-    data.push(specialChars.end)
+    let data = dataLinkCovert(dataIn)
 
     let transmissionFinished = false
     for (var index = 0; index < data.length; index++)
