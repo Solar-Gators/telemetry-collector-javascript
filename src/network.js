@@ -88,7 +88,7 @@ function DDMtoDD(str)
 * 
 * @param {Number[]} data a single transmission
 */
-exports.handleTransmission =  function handleTransmission(data)
+function handleTransmission(data)
 {
     var numMessages = data[0]
     var currentIndex = 1
@@ -179,3 +179,4 @@ function read(byteIn)
 }
 
 exports.read = read
+exports.handleTransmission = handleTransmission
