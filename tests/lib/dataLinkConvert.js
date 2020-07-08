@@ -2,7 +2,7 @@ var dataLink = require('../../src/dataLink')
 var specialChars = dataLink.specialChars
 
 /**
- * Gets data link transmitable array with start/end/escape characters
+ * Gets data link transmittable array with start/end/escape characters
  * 
  * @param {number[]} dataIn
  * @returns {number[]} converts to array that data link can read

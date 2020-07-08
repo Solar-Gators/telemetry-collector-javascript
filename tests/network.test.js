@@ -1,4 +1,5 @@
-let { handleTransmission, TELEMETRY_ADDRESS } = require('../src/network')
+let { handleTransmission } = require('../src/network')
+let { TELEMETRY_ADDRESS } = require('../src/lib/helper')
 var ServerMock = require("mock-http-server")
 
 var { expect } = require('chai')
