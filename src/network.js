@@ -79,6 +79,7 @@ function DDMtoDD(str)
     {
         minStr += str[index]
     }
+const bms = require('./lib/bms')
 
     return degrees + (parseFloat(minStr)/60*( str[0] == '-' ? -1 : 1))
 }
@@ -101,16 +102,6 @@ function handleTransmission(data)
         for (var count = 0; count < dataLen; count++)
             dataBuffer.push(data[currentIndex++])
         
-        if (address == TELEMETRY_ADDRESS.BMS && dataBuffer[7] && dataBuffer[6])
-        {
-            //console.log(dataBuffer[7].toString(16), dataBuffer[6].toString(16))
-
-            var packSumVoltage = getWord(dataBuffer[7], dataBuffer[6])/100
-
-            sendData("bms", {
-                "packSumVoltage": packSumVoltage
-            })
-        }
 
         else if (address == TELEMETRY_ADDRESS.GPS)
         {
@@ -165,6 +156,7 @@ function handleTransmission(data)
             // console.log("temp : ", temp, "C")
             // console.log("--------- PACKET END ---------")
         }
+        if (bms.check(address, dataBuffer)) {  }
     }
 }
 
