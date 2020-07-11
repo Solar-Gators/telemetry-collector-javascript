@@ -10,29 +10,32 @@ let helper = require('./helper')
  */
 exports.check = function check(address, data) {
     return helper.addressCheck(
-        address == helper.TELEMETRY_ADDRESS.GPS,
+        address == TELEMETRY_ADDRESS.IMU,
         () => {
-        var gpsString = ""
-        for (var index = 0; index < data.length; index++)
-            gpsString += String.fromCharCode(data[index])
-        //var gpsString = data.join('')
-        var values = gpsString.split(',')
+            
+            var accel = {
+                x: signed16(dataBuffer[1], dataBuffer[0]),
+                y: signed16(dataBuffer[3], dataBuffer[2]),
+                z: signed16(dataBuffer[5], dataBuffer[4])
+            }
 
-        //north and east is positive
-        var longitudeStr = values[1]
-        var latitudeStr = values[0]
+            var gyro = {
+                x: signed16(dataBuffer[7], dataBuffer[6]),
+                y: signed16(dataBuffer[9], dataBuffer[8]),
+                z: signed16(dataBuffer[11], dataBuffer[10])
+            }
+            var linear = {
+                x: signed16(dataBuffer[13], dataBuffer[12]),
+                y: signed16(dataBuffer[15], dataBuffer[14]),
+                z: signed16(dataBuffer[17], dataBuffer[16])
+            }
+            var temp = signed16(dataBuffer[19], dataBuffer[18])
 
-        
-        var longitude = String(parseFloat(longitudeStr) * (longitudeStr[longitudeStr.length - 1] == "W" ? -1 : 1))
-        var latitude = String(parseFloat(latitudeStr) * (latitudeStr[latitudeStr.length - 1] == "S" ? -1 : 1))
-        var speed = parseFloat(values[2])
-        var heading = parseFloat(values[3])
-
-        helper.sendData("gps", {
-            "longitude": helper.DDMtoDD(longitude),
-            "latitude": helper.DDMtoDD(latitude),
-            "speed": speed,
-            "heading": heading
-        })
+            // console.log("--------- PACKET START ---------")
+            // console.log("accel : ", accel)
+            // console.log("gyro : ", gyro)
+            // console.log("linear : ", gyro)
+            // console.log("temp : ", temp, "C")
+            // console.log("--------- PACKET END ---------")
     })
 }
