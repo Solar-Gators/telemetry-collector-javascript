@@ -4,6 +4,7 @@ let helper = require("./helper");
  * Check to see if Mitsuba Frame 0 data was transmitted and return a boolean
  *
  * @param {number} address
+ * @param {number} ID
  * @param {number[]} data
  * @returns {Boolean}
  */
