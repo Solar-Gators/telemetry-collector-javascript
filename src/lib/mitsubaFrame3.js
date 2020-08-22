@@ -7,11 +7,12 @@ let helper = require("./helper");
  * @param {number[]} data
  * @returns {Boolean}
  */
-exports.check = function check(address, data) {
+exports.check = function check(address, ID, data) {
   return helper.addressCheck(
     address == helper.TELEMETRY_ADDRESS.MITSUBAFRAME2,
     () => {
       helper.sendData("mitsubaframe2", {
+        ID: ID,
         adSensorError: data[0] & (1 << 0),
         motorCurrSensorUError: data[0] & (1 << 1),
         motorCurrSensorWError: data[0] & (1 << 2),

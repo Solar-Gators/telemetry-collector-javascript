@@ -7,7 +7,7 @@ let helper = require("./helper");
  * @param {number[]} data
  * @returns {Boolean}
  */
-exports.check = function check(address, data) {
+exports.check = function check(address, ID, data) {
   return helper.addressCheck(
     address == helper.TELEMETRY_ADDRESS.MITSUBAFRAME0,
     () => {
@@ -18,6 +18,7 @@ exports.check = function check(address, data) {
       let preMotorRPM = ((data[5] & 0x7f) << 5) | (data[4] >> 3);
       let preDuty = ((data[7] & 1) << 9) | (data[6] << 1) | (data[5] >> 7);
       helper.sendData("mitsubaFrame0", {
+        ID: ID,
         battVoltage: preBattVoltage,
         battCurrent: preBattCurrent,
         battCurrentDir: data[2] & 8,

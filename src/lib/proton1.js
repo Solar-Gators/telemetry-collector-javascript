@@ -7,14 +7,15 @@ let helper = require("./helper");
  * @param {number[]} data
  * @returns {Boolean}
  */
-exports.check = function check(address, data) {
+exports.check = function check(address, ID, data) {
   return helper.addressCheck(address == helper.TELEMETRY_ADDRESS.MPPT, () => {
-    let preArrayVoltage = (input[1] << 8) | input[0];
-    let preArrayCurrent = (input[3] << 8) | input[2];
-    let preBatteryVoltage = (input[5] << 8) | input[4];
-    let preMpptTemperature = (input[7] << 8) | input[6];
+    let preArrayVoltage = (data[1] << 8) | data[0];
+    let preArrayCurrent = (data[3] << 8) | data[2];
+    let preBatteryVoltage = (data[5] << 8) | data[4];
+    let preMpptTemperature = (data[7] << 8) | data[6];
 
     helper.sendData("proton1", {
+      ID: ID,
       arrayVoltage: preArrayVoltage / 100,
       arrayCurrent: preArrayCurrent / 100,
       batteryVoltage: preBatteryVoltage / 100,

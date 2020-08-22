@@ -7,7 +7,7 @@ let helper = require("./helper");
  * @param {number[]} data
  * @returns {Boolean}
  */
-exports.check = function check(address, data) {
+exports.check = function check(address, ID, data) {
   return helper.addressCheck(
     address == helper.TELEMETRY_ADDRESS.MITSUBAFRAME1,
     () => {
@@ -16,6 +16,7 @@ exports.check = function check(address, data) {
       let preDigitSWposition = ((data[3] & 0x3) << 2) | (data[2] >> 6);
       let preOutTargetVal = ((data[4] & 0xf) << 6) | (data[3] >> 2);
       helper.sendData("mitsubaframe1", {
+        ID: ID,
         powerMode: data[0] & 1,
         MCmode: (data[0] >> 1) & 1,
         AcceleratorPosition: preAccelPos,
