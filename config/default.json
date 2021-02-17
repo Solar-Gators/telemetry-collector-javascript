@@ -1,7 +1,7 @@
 {
     "Serial" : {
-        "baudRate": 57600,
-        "serialPort": "/dev/serial0"
+        "baudRate": 2400,
+        "serialPort": "/dev/pts/1"
     },
     "server": {
         "url": "http://localhost:8080"

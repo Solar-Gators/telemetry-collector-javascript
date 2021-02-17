@@ -9,8 +9,9 @@ let helper = require('./helper')
  * @returns {boolean}
  */
 exports.check = function check(address, data) {
+    // console.log("aaad")
     return helper.addressCheck(
-        address == TELEMETRY_ADDRESS.IMU,
+        address == helper.TELEMETRY_ADDRESS.IMU,
         () => {
             
             var accel = {
@@ -31,11 +32,11 @@ exports.check = function check(address, data) {
             }
             var temp = signed16(dataBuffer[19], dataBuffer[18])
 
-            // console.log("--------- PACKET START ---------")
-            // console.log("accel : ", accel)
-            // console.log("gyro : ", gyro)
-            // console.log("linear : ", gyro)
-            // console.log("temp : ", temp, "C")
-            // console.log("--------- PACKET END ---------")
+            console.log("--------- PACKET START ---------")
+            console.log("accel : ", accel)
+            console.log("gyro : ", gyro)
+            console.log("linear : ", gyro)
+            console.log("temp : ", temp, "C")
+            console.log("--------- PACKET END ---------")
     })
 }

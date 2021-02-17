@@ -17,15 +17,17 @@ var escaped = false
 var inprogess = false
 
 /**
-* Reads a single byte, after a transmission is complete an array it returned in the calback
+* Reads a single byte, after a transmission is complete an array is returned in the calback
 * 
 * @param {Number} byteIn a single byte from a transmission
 * @param {function} callback returns an array of a transmission
 */
 function read(byteIn, callback)
 {
+    // console.log("ppp")
     if (!escaped)
     {
+        // console.log("j")
         if (byteIn == specialChars.escape)
         {
             escaped = true
@@ -56,6 +58,7 @@ function read(byteIn, callback)
             //handle trasnmission
             inprogess = false
             callback(data)
+            // console.log(data)
             return
         }
     }

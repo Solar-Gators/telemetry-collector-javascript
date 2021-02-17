@@ -14,15 +14,20 @@ const imu = require('./lib/imu')
 function handleTransmission(data)
 {
     //get number of messages
-    var numMessages = data[0]
+    // console.log(data)
+    // console.log(data[0])
+    // var numMessages = data[0]
     var currentIndex = 1
 
-    for (var message = 0; message < numMessages; message++)
-    {
+    // for (var message = 0; message < numMessages; message++)
+    // {
         //get start address
         var address = data[currentIndex++]
         //get data length
         var dataLen = data[currentIndex++]
+        // console.log(address)
+        // console.log(dataLen)
+        // console.log(4)
 
         //fill data in buffer
         var dataBuffer = []
@@ -30,10 +35,11 @@ function handleTransmission(data)
             dataBuffer.push(data[currentIndex++])
         
         //check to see if addresses have been found & POST the data accordingly
+        // bms.check(address,dataBuffer)
         if (bms.check(address, dataBuffer)) {  }
         else if (gps.check(address, dataBuffer)) {  }
         else if (imu.check(address, dataBuffer)) {  }
-    }
+    // }
 }
 
 /**

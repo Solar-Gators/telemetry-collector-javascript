@@ -9,6 +9,12 @@ let helper = require('./helper')
  * @returns {Boolean}
  */
 exports.check = function check(address, data) {
+    if(address == helper.TELEMETRY_ADDRESS.BMS){
+        console.log(helper.getWord(data[1], data[0])/100)
+        console.log(helper.getWord(data[3], data[2])/100)
+        console.log(helper.getWord(data[5], data[4])/100)
+        console.log(helper.getWord(data[7], data[6])/100)
+    }
     return helper.addressCheck(
         address == helper.TELEMETRY_ADDRESS.BMS && data[7] && data[6],
         () => {

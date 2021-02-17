@@ -6,10 +6,10 @@ const config = require('config')
  * Telemetry Addresses
  */
 exports.TELEMETRY_ADDRESS = {
-    GPS: 0x00,
-    MPPT: 0x01,
-    BMS: 0x02,
-    IMU: 0x03
+    GPS: 0,
+    MPPT: 1,
+    BMS: 2,
+    IMU: 3
 }
 
 
