@@ -21,6 +21,10 @@ function handleTransmission(data)
     {
         //get start address
         var address = data[currentIndex++]
+
+        //id is used for multiple devices with the same address
+        var id = data[currentIndex++]
+
         //get data length
         var dataLen = data[currentIndex++]
 
